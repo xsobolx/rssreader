@@ -15,7 +15,7 @@ import comxsobolx.github.rssfeedreader.model.WebSite;
  * Created by aleksandr on 26.07.16.
  */
 public class RssDatabaseHelper extends SQLiteOpenHelper {
-    private final static int DATABASE_VERSION = 3;
+    private final static int DATABASE_VERSION = 1;
 
     private final static String DATABSE_NAME = "rssReader";
 
