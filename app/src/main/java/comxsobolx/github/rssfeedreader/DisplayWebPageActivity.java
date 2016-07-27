@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 public class DisplayWebPageActivity extends AppCompatActivity {
 
     private WebView webView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,19 @@ public class DisplayWebPageActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(pageUrl);
 
-        webView.setWebViewClient(new DisplayWebPageActivityClient());
+        webView.setWebChromeClient(new DisplayWebPageActivityClient());
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return false;
+            }
+        });
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setMax(100);
+        DisplayWebPageActivity.this.setProgress(0);
     }
 
     @Override
@@ -35,11 +50,15 @@ public class DisplayWebPageActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private class DisplayWebPageActivityClient extends WebViewClient {
+    private class DisplayWebPageActivityClient extends WebChromeClient {
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
+        public void onProgressChanged(WebView view, int newProgress) {
+            DisplayWebPageActivity.this.setValue(newProgress);
+            super.onProgressChanged(view, newProgress);
         }
+    }
+
+    public void setValue(int progress) {
+        this.progressBar.setProgress(progress);
     }
 }
