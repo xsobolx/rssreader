@@ -49,7 +49,15 @@ public class FeedActivity extends AppCompatActivity {
         LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
         rss_feed_list.setLayoutManager(layoutMgr);
 
-        adapter = new RssItemAdapter(this, rssFeedItemList);
+        adapter = new RssItemAdapter(rssFeedItemList, new RssItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(RssFeedItem item) {
+                Intent intent = new Intent(getApplicationContext(), DisplayWebPageActivity.class);
+                intent.putExtra("itemUrl", item.getMlink());
+                Log.d("ITEMURL", item.getMlink());
+                startActivity(intent);
+            }
+        });
 
         rssDB = new RssDatabaseHelper(this);
 
@@ -93,6 +101,7 @@ public class FeedActivity extends AppCompatActivity {
                     for (RssFeedItem item :
                             rssFeedItemList) {
                         item.setRssLink(rssLink);
+                        Log.d("RSSFEEDITEM", item.getMlink());
                         rssDB.addFeedItem(item);
                     }
 
