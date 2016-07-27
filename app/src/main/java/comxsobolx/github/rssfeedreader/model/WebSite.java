@@ -6,15 +6,10 @@ import org.simpleframework.xml.Root;
 /**
  * Created by aleksandr on 26.07.16.
  */
-@Root(name = "channel", strict = false)
 public class WebSite {
-    Integer id;
-    @Element(name="title", required = false)
-    String title;
-    @Element(name="link", required = false)
-    String link;
-
-
+    private Integer id;
+    private String title;
+    private String link;
 
     public WebSite(){
 

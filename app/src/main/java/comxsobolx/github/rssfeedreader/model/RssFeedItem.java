@@ -19,6 +19,9 @@ public class RssFeedItem implements Serializable {
     @Element(name = "description")
     private String mdescription;
 
+    private String rssLink;
+
+
     public RssFeedItem() {
     }
 
@@ -59,6 +62,14 @@ public class RssFeedItem implements Serializable {
 
     public void setMdescription(String mdescription) {
         this.mdescription = mdescription;
+    }
+
+    public String getRssLink() {
+        return rssLink;
+    }
+
+    public void setRssLink(String rssLink) {
+        this.rssLink = rssLink;
     }
 }
 

@@ -1,5 +1,6 @@
 package comxsobolx.github.rssfeedreader.model;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -14,15 +15,22 @@ import java.util.List;
 public class RssChannel implements Serializable {
     @ElementList(inline = true, name="item")
     private ArrayList<RssFeedItem> mFeedItems;
+    @Element(name="title")
+    private String mTitle;
 
     public ArrayList<RssFeedItem> getFeedItems() {
         return mFeedItems;
     }
 
+    public String getmTitle() {
+        return mTitle;
+    }
+
     public RssChannel() {
     }
 
-    public RssChannel(ArrayList<RssFeedItem> mFeedItems) {
+    public RssChannel(ArrayList<RssFeedItem> mFeedItems, String title) {
         this.mFeedItems = mFeedItems;
+        this.mTitle = title;
     }
 }

@@ -63,7 +63,6 @@ public class RSSFeedListActivity extends AppCompatActivity {
 
 
         rssDb.addSites();
-
         new loadStoreSites().execute();
 
         lv = (ListView) findViewById(R.id.website_listview);

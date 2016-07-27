@@ -36,6 +36,7 @@ public class FeedActivity extends AppCompatActivity {
     private RssItemAdapter adapter = null;
     private RssDatabaseHelper rssDB;
     private ProgressDialog pDialog;
+    private String rssLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class FeedActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String rssLink = intent.getStringExtra(RSSFeedListActivity.TAG_LINK);
+        rssLink = intent.getStringExtra(RSSFeedListActivity.TAG_LINK);
 
         if (isOnline()) {
             updateRssItemsFromInternet(rssLink);
@@ -64,7 +65,7 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
-    void updateRssItemsFromInternet(String rssLink ) {
+    void updateRssItemsFromInternet(final String rssLink ) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -91,6 +92,7 @@ public class FeedActivity extends AppCompatActivity {
                     rssFeedItemList = channel.getFeedItems();
                     for (RssFeedItem item :
                             rssFeedItemList) {
+                        item.setRssLink(rssLink);
                         rssDB.addFeedItem(item);
                     }
 
@@ -141,7 +143,7 @@ public class FeedActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            rssFeedItemList = rssDB.getAllItems();
+            rssFeedItemList = rssDB.getAllItems(rssLink);
             updateDisplay(rssFeedItemList);
             return null;
         }
